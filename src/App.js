@@ -81,10 +81,16 @@ class App extends Component {
 
     onButtonSubmit() {
         this.setState({ imageUrl: this.state.input });
-        fetch("https://api.clarifai.com/v2/models/" + "face-detection" + "/outputs", returnClarifaiRequestOptions(this.state.input))
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(error => console.log('error', error));
+        if (this.state.input){
+            fetch("https://api.clarifai.com/v2/models/" + "face-detection" + "/outputs", returnClarifaiRequestOptions(this.state.input))
+                .then(response => response.json())
+                .then(response => {
+                    if (response) {
+                        this.displayFaceBox(this.calculateFaceLocation(response))
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     }
 
     onRouteChange = (route) => {
