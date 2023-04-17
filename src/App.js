@@ -4,6 +4,7 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import Signin from './components/Signin/Signin';
 import ParticlesBg from 'particles-bg';
 import './App.css';
 import 'tachyons';
@@ -40,15 +41,14 @@ const requestOptions = {
 return requestOptions
 }
 
-
-
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             input: '',
             imageUrl: '',
-            box: {}
+            box: {},
+            route: 'signin',
         };
         this.onInputChange = this.onInputChange.bind(this);
         this.onButtonSubmit = this.onButtonSubmit.bind(this);
@@ -87,16 +87,25 @@ class App extends Component {
             .catch(error => console.log('error', error));
     }
 
+    onRouteChange = (route) => {
+        this.setState({ route: route });
+    }
+
 
     render() {
         return (
             <div className="App">
                 <ParticlesBg color="#FFFFFF" type="cobweb" bg={true} />
-                <Navigation />
-                <Logo />
-                <Rank />
-                <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
-                <FaceRecognition box={this.state.box} imageUrl={this.state.input} />
+                <Navigation onRouteChange={this.onRouteChange}/>
+                { this.state.route === 'signin'
+                    ? <Signin onRouteChange={this.onRouteChange}/>
+                    : <div>
+                    <Logo />
+                    <Rank />
+                    <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
+                    <FaceRecognition box={this.state.box} imageUrl={this.state.input} />
+                    </div>
+                }
             </div>
         );
     }
