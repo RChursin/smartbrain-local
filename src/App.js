@@ -41,28 +41,24 @@ const requestOptions = {
 };
 return requestOptions
 }
-
+const initialState = {
+    input: '',
+    imageUrl: '',
+    box: {},
+    route: 'signin',
+    isSignedIn: false,
+    user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+    }
+}
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            input: '',
-            imageUrl: '',
-            box: {},
-            route: 'signin',
-            isSignedIn: false,
-            user: {
-                id: '',
-                name: '',
-                email: '',
-                entries: 0,
-                joined: ''
-            }
-        };
-        this.onInputChange = this.onInputChange.bind(this);
-        this.onButtonSubmit = this.onButtonSubmit.bind(this);
-        this.calculateFaceLocation = this.calculateFaceLocation.bind(this);
-        this.displayFaceBox = this.displayFaceBox.bind(this);
+        this.state = initialState;
     }
 
     componentDidMount() {
@@ -121,6 +117,7 @@ class App extends Component {
                             .then(count => {
                             this.setState(Object.assign(this.state.user, { entries: count }))
                         })
+                            .catch(console.log)
                     }
                     this.displayFaceBox(this.calculateFaceLocation(response))
                 })
@@ -130,7 +127,7 @@ class App extends Component {
 
     onRouteChange = (route) => {
         if (route === 'signout') {
-            this.setState({ isSignedIn: false })
+            this.setState(initialState)
         }else if (route === 'home') {
             this.setState({ isSignedIn: true })
         }
