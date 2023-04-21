@@ -59,6 +59,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = initialState;
+        this.onInputChange = this.onInputChange.bind(this);
+        this.onButtonSubmit = this.onButtonSubmit.bind(this);
+        this.displayFaceBox = this.displayFaceBox.bind(this);
+        this.onRouteChange = this.onRouteChange.bind(this);
+        this.loadUser = this.loadUser.bind(this);
     }
 
     componentDidMount() {
